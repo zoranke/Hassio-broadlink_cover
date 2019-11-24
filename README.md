@@ -2,8 +2,7 @@
 broadlink_cover
 
 
-
-
+////////////////////////////////////////////////////////////////////////////////////////////////
 cover:
   - platform: broadlink_cover
     host: 192.168.10.XXX
@@ -15,7 +14,7 @@ cover:
           command_open: '############'
           command_close: '############'
           command_stop: '############'
- 
+          
         livingroom_cover:
           travel_time: 8
           position_sensor: binary_sensor.door_window_sensor #//////有传感器设置
@@ -23,3 +22,4 @@ cover:
           command_open: '############'
           command_close: '############'
           command_stop: '############'
+////////////////////////////////////////////////////////////////////////////////////////////////
