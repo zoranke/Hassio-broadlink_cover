@@ -1,7 +1,7 @@
 {
     "domain": "broadlink_cover",
     "name": "Broadlink cover",
-    "documentation": "https://github.com/zoranke/hassio-addons/blob/master/broadlink",
+    "documentation": "https://github.com/zoranke/Hassio-broadlink_cover",
     "requirements": [
         "broadlink==0.11.1"
     ],
