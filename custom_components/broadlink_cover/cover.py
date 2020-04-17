@@ -68,7 +68,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     covers = []
     for object_id, device_config in devices.items():
         covers.append(
-            BroadlinkCover(
+            RMCover(
                 hass,
                 object_id,
                 broadlink_device,
