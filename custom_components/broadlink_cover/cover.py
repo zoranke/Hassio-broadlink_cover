@@ -7,9 +7,10 @@ import requests
 import struct
 import voluptuous as vol
 
-from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE)
-#from homeassistant.components.cover import CoverDevice, PLATFORM_SCHEMA
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OPEN, STATE_CLOSED)
+from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE, SUPPORT_SET_POSITION,
+    SUPPORT_SET_TILT_POSITION)
+
+from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING)
 from homeassistant.core import callback
 from homeassistant.helpers.event import async_track_state_change
 from homeassistant.helpers.event import track_utc_time_change
@@ -67,7 +68,7 @@ def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
     covers = []
     for object_id, device_config in devices.items():
         covers.append(
-            RMCover(
+            BroadlinkCover(
                 hass,
                 object_id,
                 broadlink_device,
@@ -107,9 +108,9 @@ class RMCover(CoverDevice,RestoreEntity):
             self._travel_time = travel_time
             self._step = round(100.0 / travel_time ,2)
             self._device_class = 'window'
-        else:
-            self._position = None
-            self._device_class = 'garage'
+  #      else:
+  #          self._position = None
+  #          self._device_class = 'garage'
 
         self._cmd_open = b64decode(cmd_open) if cmd_open else None
         self._cmd_close = b64decode(cmd_close) if cmd_close else None
@@ -157,13 +158,6 @@ class RMCover(CoverDevice,RestoreEntity):
         self._async_update_pos(new_state)
         yield from self.async_update_ha_state()
 
-
-#    @property
-#    def device_state_attributes(self):
-#        if self._device_class == 'window':
-#            return {'homebridge_cover_type': 'rollershutter'}
-#        else:
-#            return {'homebridge_cover_type': 'garage_door'}
 
     @property
     def name(self):
