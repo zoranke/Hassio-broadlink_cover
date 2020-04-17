@@ -1,5 +1,5 @@
 {
-  "name": "SmartIR",
-  "homeassistant": "0.96.0",
+  "name": "broadlink_cover",
+  "homeassistant": "1.07.0",
   "persistent_directory": "codes"
 }
