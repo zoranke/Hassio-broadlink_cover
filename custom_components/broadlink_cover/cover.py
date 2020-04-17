@@ -3,7 +3,8 @@ import logging
 import binascii
 import socket
 import os.path
-
+import requests
+import struct
 import voluptuous as vol
 
 from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE)
@@ -19,7 +20,7 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
 
-REQUIREMENTS = ['broadlink==0.13.0']
+REQUIREMENTS = ['broadlink==0.12.0']
 
 _LOGGER = logging.getLogger(__name__)
 
