@@ -1,31 +1,3 @@
-"""////////////////////////////////////////////////////////////////////////////////////////////////
-Home Assistant Custom Component for Broadlink Cover platform.
-Build by Zoranke
-
-installation notes:
-place this file in the following folder and restart home assistant:
-/config/custom_components/broadlink_cover
-#############################################################################
-cover:
-  - platform: broadlink_cover
-    host: 192.168.10.XXX
-    mac: '34:EA:34:E3:XX:XX'
-    covers:
-        bedroom_cover:               #///////无传感器设置
-          name: "窗帘"                 
-          travel_time: 8
-          command_open: '############'
-          command_close: '############'
-          command_stop: '############'
- 
-        livingroom_cover:
-          travel_time: 8
-          position_sensor: binary_sensor.door_window_sensor #//////有传感器设置
-          name: "窗户"
-          command_open: '############'
-          command_close: '############'
-          command_stop: '############'
-////////////////////////////////////////////////////////////////////////////////////////////////"""
 import asyncio
 import logging
 import binascii
