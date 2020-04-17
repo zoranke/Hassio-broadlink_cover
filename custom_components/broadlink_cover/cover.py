@@ -3,8 +3,6 @@ import logging
 import binascii
 import socket
 import os.path
-import requests
-import struct
 import voluptuous as vol
 
 from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE, SUPPORT_SET_POSITION,
@@ -108,9 +106,9 @@ class RMCover(CoverDevice,RestoreEntity):
             self._travel_time = travel_time
             self._step = round(100.0 / travel_time ,2)
             self._device_class = 'window'
-  #      else:
-  #          self._position = None
-  #          self._device_class = 'garage'
+        else:
+            self._position = None
+            self._device_class = 'garage'
 
         self._cmd_open = b64decode(cmd_open) if cmd_open else None
         self._cmd_close = b64decode(cmd_close) if cmd_close else None
