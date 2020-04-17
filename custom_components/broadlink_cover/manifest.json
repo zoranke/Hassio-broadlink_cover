@@ -2,11 +2,10 @@
     "domain": "broadlink_cover",
     "name": "Broadlink cover",
     "documentation": "https://github.com/zoranke/Hassio-broadlink_cover",
-    "requirements": [
-        "broadlink==0.13.0"
-    ],
     "dependencies": [],
     "codeowners": [
         "@zoranke"
-    ]
+    ],
+    "requirements": [],
+  "homeassistant": "1.07.0"
 }
