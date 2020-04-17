@@ -19,7 +19,7 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
 
-REQUIREMENTS = ['broadlink==0.12.0']
+REQUIREMENTS = ['broadlink==0.13.0']
 
 _LOGGER = logging.getLogger(__name__)
 
