@@ -7,5 +7,13 @@
         "@zoranke"
     ],
     "requirements": [],
-  "homeassistant": "1.07.0"
+    "homeassistant": "1.07.0",
+    "updater": {
+       "files": [
+        "__init__.py",
+        "cover.py",
+        "manifest.json",
+        "services.yaml"
+    ]
+  }
 }
