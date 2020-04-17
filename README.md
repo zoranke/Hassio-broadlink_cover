@@ -8,13 +8,12 @@ installation notes:
 place this file in the following folder and restart home assistant:
 /config/custom_components/broadlink_cover
 #############################################################################
-
 cover:
   - platform: broadlink_cover
     host: 192.168.10.XXX
     mac: '34:EA:34:E3:XX:XX'
     covers:
-        bedroom_cover:               #///////无传感器设置 
+        bedroom_cover:               #///////无传感器设置
           name: "窗帘"                 
           travel_time: 8
           command_open: '############'
