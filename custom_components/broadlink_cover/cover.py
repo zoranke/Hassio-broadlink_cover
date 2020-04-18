@@ -3,12 +3,12 @@ import logging
 import binascii
 import socket
 import os.path
+
 import voluptuous as vol
 
-from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE, SUPPORT_SET_POSITION,
-    SUPPORT_SET_TILT_POSITION)
-
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_CLOSED, STATE_CLOSING, STATE_OPEN, STATE_OPENING)
+from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE)
+#from homeassistant.components.cover import CoverDevice, PLATFORM_SCHEMA
+from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OPEN, STATE_CLOSED)
 from homeassistant.core import callback
 from homeassistant.helpers.event import async_track_state_change
 from homeassistant.helpers.event import track_utc_time_change
@@ -156,6 +156,13 @@ class RMCover(CoverDevice,RestoreEntity):
         self._async_update_pos(new_state)
         yield from self.async_update_ha_state()
 
+
+#    @property
+#    def device_state_attributes(self):
+#        if self._device_class == 'window':
+#            return {'homebridge_cover_type': 'rollershutter'}
+#        else:
+#            return {'homebridge_cover_type': 'garage_door'}
 
     @property
     def name(self):
