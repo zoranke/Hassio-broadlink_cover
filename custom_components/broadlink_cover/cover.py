@@ -7,7 +7,6 @@ import os.path
 import voluptuous as vol
 
 from homeassistant.components.cover import (CoverDevice, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE)
-#from homeassistant.components.cover import CoverDevice, PLATFORM_SCHEMA
 from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OPEN, STATE_CLOSED)
 from homeassistant.core import callback
 from homeassistant.helpers.event import async_track_state_change
@@ -19,7 +18,7 @@ from homeassistant.helpers.restore_state import RestoreEntity
 from configparser import ConfigParser
 from base64 import b64encode, b64decode
 
-REQUIREMENTS = ['broadlink==0.12.0']
+REQUIREMENTS = ['broadlink']
 
 _LOGGER = logging.getLogger(__name__)
 
@@ -156,14 +155,6 @@ class RMCover(CoverDevice,RestoreEntity):
         self._async_update_pos(new_state)
         yield from self.async_update_ha_state()
 
-
-#    @property
-#    def device_state_attributes(self):
-#        if self._device_class == 'window':
-#            return {'homebridge_cover_type': 'rollershutter'}
-#        else:
-#            return {'homebridge_cover_type': 'garage_door'}
-
     @property
     def name(self):
         """Return the name of the cover."""
@@ -222,7 +213,6 @@ class RMCover(CoverDevice,RestoreEntity):
             if self._sendpacket(self._cmd_close):
                 self._closed = True
                 self.schedule_update_ha_state()
-#                await self.async_update_ha_state()
             return
 
         if self._sendpacket(self._cmd_close):
@@ -231,7 +221,6 @@ class RMCover(CoverDevice,RestoreEntity):
             self._listen_cover()
             self._requested_closing = True
             self.schedule_update_ha_state()
-#            await self.async_update_ha_state()
 
     def open_cover(self, **kwargs):
         """Open the cover."""
@@ -241,7 +230,6 @@ class RMCover(CoverDevice,RestoreEntity):
             if self._sendpacket(self._cmd_open):
                 self._closed = False
                 self.schedule_update_ha_state()
-#                await self.async_update_ha_state()
             return
 
         if self._sendpacket(self._cmd_open):
@@ -250,7 +238,6 @@ class RMCover(CoverDevice,RestoreEntity):
             self._listen_cover()
             self._requested_closing = False
             self.schedule_update_ha_state()
-#            await self.async_update_ha_state()
 
     def set_cover_position(self, position, **kwargs):
         """Move the cover to a specific position."""
@@ -322,7 +309,6 @@ class RMCover(CoverDevice,RestoreEntity):
                self.stop_cover()
             
             self.schedule_update_ha_state()
-#            await self.async_update_ha_state()
 
 
     def _sendpacket(self, packet, retry=2):
