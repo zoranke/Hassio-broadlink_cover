@@ -37,7 +37,7 @@ COVERS_SCHEMA = vol.Schema({
     vol.Optional(CONF_COMMAND_OPEN, default=None): cv.string,
     vol.Optional(CONF_COMMAND_CLOSE, default=None): cv.string,
     vol.Optional(CONF_NAME, default=DEFAULT_NAME): cv.string,
-    vol.Optional(CONF_TRAVEL_TIME, default=10): cv.positive_int,
+    vol.Optional(CONF_TRAVEL_TIME, default=None): cv.positive_int,
 #    vol.Optional(CONF_POS_SENSOR, default=None): cv.entity_id,
     vol.Optional(CONF_POS_SENSOR,): cv.entity_id,
 })
