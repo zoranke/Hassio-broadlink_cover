@@ -1,5 +1,5 @@
 {
   "name": "Broadlink cover",
-  "homeassistant": "1.07.0",
+  "homeassistant": "1.10.0",
   "persistent_directory": "codes"
 }
