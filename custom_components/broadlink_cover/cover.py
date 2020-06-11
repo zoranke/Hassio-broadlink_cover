@@ -45,7 +45,7 @@ COVERS_SCHEMA = vol.Schema({
 
 PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
     vol.Optional(CONF_COVERS, default={}):
-        vol.Schema({cv.slug: COVERS_SCHEMA}),
+    vol.Schema({cv.slug: COVERS_SCHEMA}),
     vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
     vol.Required(CONF_HOST): cv.string,
     vol.Required(CONF_MAC): cv.string,
