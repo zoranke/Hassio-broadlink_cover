@@ -109,10 +109,10 @@ class RMCover(CoverDevice,RestoreEntity):
             self._position = None
             self._device_class = 'garage'
 
-        self._cmd_open = b64decode(cmd_open) if cmd_open else None
-        self._cmd_close = b64decode(cmd_close) if cmd_close else None
+        self._cmd_open = b64decode(cmd_open + "=====") if cmd_open else None
+        self._cmd_close = b64decode(cmd_close + "=====") if cmd_close else None
         if cmd_stop:
-            self._cmd_stop = b64decode(cmd_stop)
+            self._cmd_stop = b64decode(cmd_stop + "=====")
             self._supported_features=None
         else:
             self._position = None
