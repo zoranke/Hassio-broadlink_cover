@@ -168,18 +168,7 @@ class RMCover(CoverEntity,RestoreEntity):
             self._closed = False
             if self._position == 0:
                 self._position = 100
-##########################
-    @callback
-    def _async_update_position(self, state):
-        if state.state in ('false', STATE_OPENED, 'off'):
-            if self._device_class == 'window':
-                self._position = 100
-            self._opened = True
-        else:
-            self._opened = False
-            if self._position == 100:
-                self._position = 0
-####################################
+
     @asyncio.coroutine
     def _async_pos_changed(self, entity_id, old_state, new_state):
         if new_state is None:
@@ -213,7 +202,7 @@ class RMCover(CoverEntity,RestoreEntity):
     def current_cover_position(self):
         """Return the current position of the cover."""
         return self._position
-
+#######
     @property
     def is_closed(self):
         """Return if the cover is closed."""
