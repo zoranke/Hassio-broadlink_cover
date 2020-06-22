@@ -6,11 +6,30 @@ import os.path
 
 import voluptuous as vol
 
-from homeassistant.components.cover import (CoverEntity, PLATFORM_SCHEMA, SUPPORT_OPEN, SUPPORT_CLOSE)
-from homeassistant.const import (CONF_NAME, CONF_HOST, CONF_MAC, CONF_TIMEOUT, STATE_OPEN, STATE_CLOSED)
+from datetime import timedelta
+
 from homeassistant.core import callback
+#from homeassistant.helpers.event import async_track_utc_time_change, async_track_time_interval
+from homeassistant.helpers.event import track_utc_time_change, async_track_time_interval
 from homeassistant.helpers.event import async_track_state_change
-from homeassistant.helpers.event import track_utc_time_change
+from homeassistant.components.cover import (
+    ATTR_CURRENT_POSITION,
+    ATTR_POSITION,
+    SUPPORT_OPEN,
+    SUPPORT_CLOSE,
+    PLATFORM_SCHEMA,
+    CoverEntity,
+)
+from homeassistant.const import (
+    CONF_NAME,
+    CONF_HOST,
+    CONF_MAC,
+    CONF_TIMEOUT,
+    STATE_OPEN,
+    STATE_CLOSED,
+)
+
+
 import homeassistant.helpers.config_validation as cv
 from homeassistant.helpers.entity import async_generate_entity_id
 from homeassistant.helpers.restore_state import RestoreEntity
@@ -43,13 +62,16 @@ COVERS_SCHEMA = vol.Schema({
 })
 
 
-PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend({
-    vol.Optional(CONF_COVERS, default={}):
-    vol.Schema({cv.slug: COVERS_SCHEMA}),
-    vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
-    vol.Required(CONF_HOST): cv.string,
-    vol.Required(CONF_MAC): cv.string,
-})
+PLATFORM_SCHEMA = PLATFORM_SCHEMA.extend(
+    {
+        vol.Optional(CONF_COVERS, default={}): vol.Schema(
+            {
+                cv.slug: COVERS_SCHEMA}),
+                    vol.Optional(CONF_TIMEOUT, default=DEFAULT_TIMEOUT): cv.positive_int,
+                    vol.Required(CONF_HOST): cv.string,
+                    vol.Required(CONF_MAC): cv.string,
+            }
+)
 
 @asyncio.coroutine
 def async_setup_platform(hass, config, async_add_devices, discovery_info=None):
@@ -146,8 +168,18 @@ class RMCover(CoverEntity,RestoreEntity):
             self._closed = False
             if self._position == 0:
                 self._position = 100
-
-
+##########################
+    @callback
+    def _async_update_position(self, state):
+        if state.state in ('false', STATE_OPENED, 'off'):
+            if self._device_class == 'window':
+                self._position = 100
+            self._opened = True
+        else:
+            self._opened = False
+            if self._position == 100:
+                self._position = 0
+####################################
     @asyncio.coroutine
     def _async_pos_changed(self, entity_id, old_state, new_state):
         if new_state is None:
@@ -194,7 +226,15 @@ class RMCover(CoverEntity,RestoreEntity):
     def is_closing(self):
         """Return if the cover is closing."""
         return self._is_closing
-
+##############################
+    @property
+    def is_opened(self):
+        """Return if the cover is opened."""
+        if self._position is None:
+            return self._opened
+        else:
+            return self._position == 100
+##################
     @property
     def is_opening(self):
         """Return if the cover is opening."""
@@ -228,7 +268,8 @@ class RMCover(CoverEntity,RestoreEntity):
             return
         elif self._position is None:
             if self._sendpacket(self._cmd_open):
-                self._closed = False
+#                self._closed = False
+                self._opened = True
                 self.schedule_update_ha_state()
             return
 
@@ -237,6 +278,7 @@ class RMCover(CoverEntity,RestoreEntity):
             self._is_opening = True
             self._listen_cover()
             self._requested_closing = False
+#            self._requested_opening = True
             self.schedule_update_ha_state()
 
     def set_cover_position(self, position, **kwargs):
@@ -335,7 +377,8 @@ class RMCover(CoverEntity,RestoreEntity):
         if not auth and retry > 0:
             return self._auth(retry-1)
         return auth
-
+     # Update state of entity
+        self.async_write_ha_state()
 #    async def async_added_to_hass(self):
 #        await super().async_added_to_hass()
 #        last_state = await self.async_get_last_state()
