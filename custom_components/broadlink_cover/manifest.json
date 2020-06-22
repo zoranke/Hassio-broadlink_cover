@@ -10,7 +10,6 @@
     "homeassistant": "1.10.0",
     "updater": {
        "files": [
-        "__init__.py",
         "cover.py",
         "manifest.json",
         "services.yaml"
